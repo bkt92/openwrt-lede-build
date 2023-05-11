@@ -1,7 +1,8 @@
 version: "3.9"
 services:
   lede-build:
-    build: ./lede-build
+    image: "bkt92/openwrt-lede-build-env"
+    #build: ./lede-build
     volumes:
       - "./release:/openwrt/release"
       - "./config:/openwrt/config"

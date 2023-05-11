@@ -36,17 +36,23 @@ cd lede
 ./scripts/feeds install -a
 
 # Copy config file
-cp /openwrt/config/$CONFIG .config
+if [ -e /openwrt/config ];
+    then 
+    cp /openwrt/config/$CONFIG .config
+    # Custom settings
+    [ -e ../files ] && mv ../files .
+    [ -e ../custom.sh ] && mv /openwrt/custom.sh . && sh custom.sh
 
-# Custom settings
-[ -e ../files ] && mv ../files .
-[ -e ../custom.sh ] && mv ../custom.sh . && ./custom.sh
+    # Download required files to build
+    make download -j$(nproc)
 
-# Download required files to build
-make download -j$(nproc)
+    # Buid firmware with .config
+    make -j1 V=s
 
-# Buid firmware with .config
-make -j1 V=s
+    # Move target outside
+    mv bin ../release
+else
+    echo "No config files found"
+    bash
+fi
 
-# Move target outside
-mv bin ../release
