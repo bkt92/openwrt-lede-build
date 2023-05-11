@@ -1,7 +1,7 @@
 # openwrt-lede-build
 Build environment for openwrt/lede based on Ubuntu 20.04 LTS Docker Image 
 
-[![LICENSE](https://img.shields.io/github/license/mashape/apistatus.svg?style=flat-square&label=License)]()
+[![LICENSE](https://img.shields.io/github/license/mashape/apistatus.svg?style=flat-square&label=License)](https://github.com/bkt92/openwrt-lede-build/blob/main/README.md)
 
 ## Usage
 
