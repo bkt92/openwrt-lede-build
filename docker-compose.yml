@@ -1,0 +1,10 @@
+version: "3.9"
+services:
+  lede-build:
+    build: ./lede-build
+    volumes:
+      - "./release:/openwrt/release"
+      - "./config:/openwrt/config"
+    environment:
+      GITREPO: https://github.com/coolsnowwolf/lede
+      CONFIG: cr660x.config
