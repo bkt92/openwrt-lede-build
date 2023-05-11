@@ -5,7 +5,7 @@ Build environment for openwrt/lede based on Ubuntu 20.04 LTS Docker Image
 
 ## Usage
 
-### Pull or build image
+### Pull image
 
 - Pull image from docker hub.
   
@@ -13,10 +13,11 @@ Build environment for openwrt/lede based on Ubuntu 20.04 LTS Docker Image
   docker pull bkt92/openwrt-lede-build-env
   ```
 
+(Optional)
 - Build image.
   
   ```shell
-  docker build -t bkt92/openwrt-lede-build-env github.com/bkt92/openwrt-lede-build/lede-build
+  docker build -t <image_name> github.com/bkt92/openwrt-lede-build/lede-build
   ```
 ### Copy Config File
 Create config folder and copy config file for specific build target.
@@ -28,6 +29,14 @@ Available config file:
 To custom the pre-installed pakage run 'make menuconfig in the container'
 
 Other custom can be made by change the custom.sh script file and add files to the folder /openwrt/files of the container
+
+### Build firmware with docker-compose
+- Install Docker desktop on windows or install docker on linux
+- Download docker-compose.yml and config file for device (for example cr660x.config)
+- Eut config file to the config folder.
+- Edit environment to match the name of config file.
+- Run docker-compose up and wait.
+- The firmware will be in the release folder. 
 
 ### Run container
 
