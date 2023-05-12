@@ -69,7 +69,7 @@ Repo can be added:
 - Enter from the host.
   
   ```shell
-  docker exec -it openwrt-build-env bash
+  docker exec -it lede-build bash
   ```
 
 ### Custom build (after first build by default)
