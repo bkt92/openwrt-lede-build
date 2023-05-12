@@ -1,19 +1,19 @@
 #!/bin/bash
 #
-# Copyright (c) none
+# Copyright (c) Bui Khac Tu
 #
 # This is free software, licensed under the MIT License.
 # See /LICENSE for more information.
 #
 # File name: build.sh
-# Description: OpenWrt Build Script
+# Description: OpenWrt Build Script For Docekr Container
 #
 
 # Set env
 # Config File
-if [ -z ${CONFIG+x} ];
+if [ -z ${CONFIGFILE+x} ];
     then echo "Config file is not set, set to default = CR660x"
-    CONFIG="cr660x.config"
+    CONFIGFILE="cr660x.config"
 else
     echo "Config file is set to '$CONFIG'";
 fi
@@ -24,35 +24,48 @@ if [ -z ${GITREPO+x} ];
 else
     echo "Using '$GITREPO'";
 fi
+# Update build script (for debug)
+[ -e /openwrt/config/build.sh ] && mv /openwrt/config/build.sh /openwrt/build.sh && exit 0
 
 # Clone git repo
 git clone $GITREPO lede
 cd lede
 
-# Update packages
+# Add custom feeds
+[ -e /openwrt/config/custom_feeds.sh ] && sh /openwrt/config/custom_feeds.sh
+
+# Update feeds
 ./scripts/feeds update -a
 
-# Install packages
+# Install feeds
 ./scripts/feeds install -a
 
 # Copy config file
-if [ -e /openwrt/config ];
+if [ -e /openwrt/config/$CONFIGFILE ];
     then 
-    cp /openwrt/config/$CONFIG .config
+    cp /openwrt/config/$CONFIGFILE .config
     # Custom settings
-    [ -e ../files ] && mv ../files .
-    [ -e ../custom.sh ] && mv /openwrt/custom.sh . && sh custom.sh
+    [ -e /openwrt/config/files ] && mv ../files .
+    [ -e /openwrt/config/custom.sh ] && mv /openwrt/config/custom.sh /openwrt/custom.sh
+	mv /openwrt/custom.sh . && sh custom.sh
 
     # Download required files to build
     make download -j$(nproc)
 
     # Buid firmware with .config
-    make -j1 V=s
+    make -j$(nproc) || make -j1 V=s
 
     # Move target outside
-    mv bin ../release
+    find bin -name \*.bin -exec cp {} /openwrt/release \;
+    
+    # Clear build
+    rm -rf bin
+    
+    # Return to bash
+    bash
 else
     echo "No config files found"
+	# Return to bash
     bash
 fi
 
