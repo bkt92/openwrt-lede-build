@@ -47,7 +47,7 @@ docker run \
     -h LEDE \
     -v $(pwd)/release:/openwrt/release \
     -v $(pwd)/config:/openwrt/config \
-    --env CONFIG="cr660x.config" \
+    --env CONFIGFILE="cr660x.config" \
     bkt92/openwrt-lede-build-env
 ```
 
@@ -69,7 +69,7 @@ Repo can be added:
 - Enter from the host.
   
   ```shell
-  docker exec -it openwrt-build-env bash
+  docker exec -it lede-build bash
   ```
 
 ### Custom build (after first build by default)
