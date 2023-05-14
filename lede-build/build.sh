@@ -15,7 +15,7 @@ if [ -z ${CONFIGFILE+x} ];
     then echo "Config file is not set, set to default = CR660x"
     CONFIGFILE="cr660x.config"
 else
-    echo "Config file is set to '$CONFIG'";
+    echo "Config file is set to '$CONFIGFILE'";
 fi
 # Git Repo
 if [ -z ${GITREPO+x} ];
@@ -57,15 +57,7 @@ if [ -e /openwrt/config/$CONFIGFILE ];
 
     # Move target outside
     find bin -name \*.bin -exec cp {} /openwrt/release \;
-    
-    # Clear build
-    rm -rf bin
-    
-    # Return to bash
-    bash
 else
     echo "No config files found"
-	# Return to bash
-    bash
 fi
 

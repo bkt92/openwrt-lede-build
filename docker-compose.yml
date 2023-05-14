@@ -8,4 +8,4 @@ services:
       - "./config:/openwrt/config"
     environment:
       GITREPO: https://github.com/coolsnowwolf/lede
-      CONFIG: cr660x.config
+      CONFIGFILE: cr660x.config
