@@ -1,0 +1,32 @@
+name: CI
+on:
+  #push:
+    #branches: [ main ]
+  repository_dispatch:
+  workflow_dispatch:
+    #inputs:
+      #ssh:
+        #description: 'SSH connection to Actions'
+        #required: false
+        #default: 'false'
+  # schedule:
+  #   - cron: 0 */8 * * *
+env:
+  GITREPO: https://github.com/coolsnowwolf/lede
+  CONFIGFOLDER: config
+  
+jobs:
+  container-build-job:
+    runs-on: ubuntu-latest
+    container:
+      image: bkt92/openwrt-lede-build-env
+      env:
+        GITREPO: https://github.com/coolsnowwolf/lede
+        CONFIGFILEFILE: r3g.config
+      volumes:
+        - "./release:/openwrt/release"
+        - "./config:/openwrt/config"
+      options: --cpus 12
+    steps:
+      - name: Check for dockerenv file
+        run: (ls /.dockerenv && echo Found dockerenv) || (echo No dockerenv)
